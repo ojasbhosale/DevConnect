@@ -1,26 +1,199 @@
-@import "tailwindcss";
+/* ===== Tailwind Base ===== */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+/* ===== CSS Variables (for themes) ===== */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --font-sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Fira Code', 'Menlo', monospace;
+
+  --color-bg: #0f1117;
+  --color-text: #ffffff;
+  --color-muted: #6b7280;
+  --color-border: #2a2d38;
+
+  --color-brand: #6366f1;
+  --color-brand-hover: #4f46e5;
+  --color-accent: #3b82f6;
+  --color-danger: #ef4444;
+  --color-success: #22c55e;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ===== Global Reset ===== */
+html, body {
+  @apply min-h-screen bg-[var(--color-bg)] text-[var(--color-text)] font-sans antialiased scroll-smooth;
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+*, *::before, *::after {
+  @apply box-border;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ===== Headings ===== */
+h1, h2, h3, h4, h5, h6 {
+  @apply font-semibold leading-tight;
+}
+h1 { @apply text-4xl md:text-5xl mb-4; }
+h2 { @apply text-3xl md:text-4xl mb-3; }
+h3 { @apply text-2xl md:text-3xl mb-2; }
+h4 { @apply text-xl mb-2; }
+
+/* ===== Links ===== */
+a {
+  @apply text-[var(--color-brand)] hover:text-[var(--color-brand-hover)] transition-colors duration-200;
+  text-decoration: none;
+}
+
+/* ===== Paragraphs ===== */
+p {
+  @apply text-base md:text-lg text-[var(--color-text)] leading-relaxed;
+}
+
+/* ===== Layout Containers ===== */
+.container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+.section {
+  @apply py-16 md:py-20;
+}
+.section-title {
+  @apply text-3xl font-bold mb-8 text-center;
+}
+
+/* ===== Cards ===== */
+.card {
+  @apply bg-[#1a1c23] p-6 rounded-2xl shadow-lg border border-[var(--color-border)] transition-all duration-300 ease-in-out;
+}
+.card-hover {
+  @apply transform hover:-translate-y-1 hover:shadow-2xl;
+}
+.card-glass {
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ===== Buttons ===== */
+.btn {
+  @apply px-5 py-2.5 rounded-xl font-medium transition-all shadow-sm focus:outline-none;
+}
+.btn-solid {
+  @apply bg-[var(--color-brand)] text-white hover:bg-[var(--color-brand-hover)];
+}
+.btn-outline {
+  @apply border border-[var(--color-brand)] text-[var(--color-brand)] hover:bg-[var(--color-brand)] hover:text-white;
+}
+.btn-ghost {
+  @apply text-[var(--color-text)] hover:bg-[#1e1e1e];
+}
+.btn-danger {
+  @apply bg-[var(--color-danger)] text-white hover:opacity-90;
+}
+.btn-glass {
+  backdrop-filter: blur(8px);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ===== Forms ===== */
+input, textarea, select {
+  @apply w-full bg-transparent border border-[var(--color-border)] text-white placeholder-[var(--color-muted)] px-4 py-2 rounded-xl focus:ring-2 focus:ring-[var(--color-brand)] focus:border-[var(--color-brand)] outline-none transition-all;
+}
+input::placeholder, textarea::placeholder {
+  @apply text-[var(--color-muted)];
+}
+label {
+  @apply block mb-2 text-sm font-medium text-white;
+}
+
+/* ===== Avatar / Image Helpers ===== */
+.avatar {
+  @apply w-12 h-12 rounded-full object-cover border border-[var(--color-border)];
+}
+
+/* ===== Utility ===== */
+.shadow-soft {
+  box-shadow: var(--shadow-sm);
+}
+.shadow-strong {
+  box-shadow: var(--shadow-lg);
+}
+.glass {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+.rounded-xl {
+  border-radius: 1rem;
+}
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-brand);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ===== Animations & Motion ===== */
+.transition-default {
+  @apply transition-all duration-300 ease-in-out;
+}
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out forwards;
+}
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Accessibility & States ===== */
+[disabled] {
+  @apply opacity-50 cursor-not-allowed;
+}
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-brand)];
+}
+
+/* ===== Code & Mono Styles ===== */
+code {
+  @apply font-mono text-sm text-[var(--color-accent)] bg-black/20 px-2 py-1 rounded;
+}
+
+/* ===== Toasts / Alerts ===== */
+.alert {
+  @apply p-4 rounded-lg border;
+}
+.alert-success {
+  @apply bg-green-100 text-green-800 border-green-200;
+}
+.alert-error {
+  @apply bg-red-100 text-red-800 border-red-200;
+}
+.alert-warning {
+  @apply bg-yellow-100 text-yellow-900 border-yellow-200;
+}
+
+/* ===== Hero + Showcase Section Base (optional use later) ===== */
+.hero {
+  @apply py-24 md:py-32 text-center;
+}
+.hero-title {
+  @apply text-5xl md:text-6xl font-bold mb-6;
+}
+.hero-subtitle {
+  @apply text-xl md:text-2xl text-[var(--color-muted)];
 }
